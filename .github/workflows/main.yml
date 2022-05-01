@@ -27,7 +27,7 @@ jobs:
         uses: docker/metadata-action@v3
         with:
           images: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ github.event.repository.name }}
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ github.event.repository.name }}:${{ steps.commit-date.outputs.COMMIT_DATE }}
+          tags: ${{ steps.commit-date.outputs.COMMIT_DATE }}
           flavor: latest=true
 
       - name: Build container
