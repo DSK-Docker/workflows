@@ -20,7 +20,7 @@ jobs:
 
       - name: Extract last commit timestamp
         id: commit-date
-        run: echo "::set-output name=COMMIT_DATE::$(git log -1 --pretty=%cI)"
+        run: echo "::set-output name=COMMIT_DATE::$(git log -1 --pretty=%ci | sed -e s'/[-:+]//'g -e s'/ /_/'g)"
 
       - name: Generate Docker metadata
         id: metadata
@@ -53,8 +53,6 @@ jobs:
       - name: Push to DockerHub
         if: ${{ github.event_name != 'pull_request' }}
         uses: docker/build-push-action@v2.10.0
-        env:
-          DOCKER_BUILDKIT: 1
         with:
           push: true
           context: .
