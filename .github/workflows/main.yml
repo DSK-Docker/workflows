@@ -1,4 +1,4 @@
-name: docker-test-and-build
+name: docker-test-build-and-push
 
 on:
   workflow_call:
@@ -11,7 +11,7 @@ on:
         required: true
   
 jobs:
-  test-and-build:
+  test-build-and-push:
 
     runs-on: ubuntu-latest
 
