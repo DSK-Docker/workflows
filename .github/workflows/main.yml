@@ -1,12 +1,14 @@
 name: docker-test-and-build
 
 on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
-  workflow_dispatch:
   workflow_call:
+    secrets:
+      DOCKER_HUB_USERNAME:
+        required: true
+      DOCKER_HUB_PASSWORD:
+        required: true
+      DOCKER_HUB_ACCESS_TOKEN:
+        required: true
   
 jobs:
   test-and-build:
