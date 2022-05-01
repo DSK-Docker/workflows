@@ -1,5 +1,4 @@
-name: docker-test-build-and-push
-
+name: workflows
 on:
   workflow_call:
     secrets:
@@ -11,7 +10,7 @@ on:
         required: true
   
 jobs:
-  test-build-and-push:
+  test-build-and-publish:
 
     runs-on: ubuntu-latest
 
