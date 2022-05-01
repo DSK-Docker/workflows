@@ -18,6 +18,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      - name: Extract last commit timestamp
+        id: commit-date
+        run: echo "::set-output name=COMMIT_DATE::$(git log -1 --pretty=%cI)"
+
       - name: Build container
         uses: docker/build-push-action@v2.10.0
         with:
@@ -44,7 +48,7 @@ jobs:
         with:
           push: true
           context: .
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ github.event.repository.name }}:latest
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ github.event.repository.name }}:latest,${{ secrets.DOCKER_HUB_USERNAME }}/${{ github.event.repository.name }}:${{ steps.commit-date.outputs.COMMIT_DATE }}
 
       - name: Sync readme and description
         if: ${{ github.event_name != 'pull_request' }}
