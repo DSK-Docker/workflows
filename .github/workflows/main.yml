@@ -22,7 +22,7 @@ jobs:
         id: commit-date
         run: echo "::set-output name=COMMIT_DATE::$(git log -1 --pretty=%ci | sed -e s'/[-:+]//'g -e s'/ /_/'g)"
 
-      - name: Generate Docker metadata
+      - name: Generate metadata
         id: metadata
         uses: docker/metadata-action@v3
         with:
