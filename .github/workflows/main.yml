@@ -46,7 +46,7 @@ jobs:
           echo "::group::Test container"
           echo "Waiting for 10 seconds to wait for container initializatzion"
           sleep 10
-          echo "Showing container logs
+          echo "Showing container logs"
           docker logs test_subject
           echo "::endgroup::"
           echo "::group::Stop container"
