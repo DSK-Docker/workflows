@@ -42,9 +42,10 @@ jobs:
           echo "::echo::on"
           echo "::group::Start container"
           docker run --rm --detach --name -v /var/run/docker.sock:/var/run/docker.sock:ro test_subject ${{ secrets.DOCKER_HUB_USERNAME }}/${{ github.event.repository.name }}:latest
+          sleep 10
           echo "::endgroup::"
           echo "::group::Test container"
-          docker exec test_subject sleep 10
+          docker exec test_subject uptime ; ps -ef
           echo "::endgroup::"
           echo "::group::Stop container"
           docker stop test_subject
