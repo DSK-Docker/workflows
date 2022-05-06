@@ -49,7 +49,7 @@ jobs:
           echo "Showing container logs"
           docker logs test_subject
           echo "Showing container stats"
-          docker exec test_subject uptime ; ps -ef
+          docker exec test_subject ps -ef
           echo "::endgroup::"
           echo "::group::Stop container"
           echo "Stopping container"
