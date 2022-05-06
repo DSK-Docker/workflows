@@ -48,6 +48,8 @@ jobs:
           sleep 10
           echo "Showing container logs"
           docker logs test_subject
+          echo "Showing container stats"
+          docker exec test_subject uptime ; ps -ef
           echo "::endgroup::"
           echo "::group::Stop container"
           echo "Stopping container"
