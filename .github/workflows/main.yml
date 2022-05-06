@@ -38,10 +38,17 @@ jobs:
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ github.event.repository.name }}:latest
 
       - name: Test new container
-        uses: addnab/docker-run-action@v3
-        with:
-          image: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ github.event.repository.name }}:latest
-          options: --rm
+        run: |
+          echo "::echo::on"
+          echo "::group::Start container"
+          docker run --rm --detach --name test_subject ${{ secrets.DOCKER_HUB_USERNAME }}/${{ github.event.repository.name }}:latest
+          echo "::endgroup::"
+          echo "::group::Test container"
+          docker exec test_subject sleep 10
+          echo "::endgroup::"
+          echo "::group::Stop container"
+          docker stop test_subject
+          echo "::endgroup::"
 
       - name: Login to DockerHub
         if: ${{ github.event_name != 'pull_request' }}
