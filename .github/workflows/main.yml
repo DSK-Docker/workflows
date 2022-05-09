@@ -63,7 +63,7 @@ jobs:
           echo "::set-output name=remove::$(docker rm test_subject)"
           echo "::endgroup::"
 
-      - name: Send mailer
+      - name: Send test results
         uses: devellany/send-mail@v1.0.2
         with:
           host: mail.dschinghis-kahn.net
@@ -73,10 +73,7 @@ jobs:
           from: coding@dschinghis-kahn.net
           to: coding@dschinghis-kahn.net
           subject: Test results for build of ${{ github.repository }}!
-          body: |
-            Here are the results of the test of the recent build:
-            ${{ steps.tests.output.logs }}
-            ${{ steps.tests.output.stats }}
+          body: "Here are the results of the test of the recent build:\n${{ steps.tests.output.logs }}\n\n${{ steps.tests.output.stats }}\n"
 
       - name: Login to DockerHub
         if: ${{ github.event_name != 'pull_request' }}
