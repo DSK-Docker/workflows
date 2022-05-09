@@ -47,7 +47,7 @@ jobs:
           echo "::group::Start container"
           echo "Running container with name test_subject"
           output=$(docker run --detach --name test_subject -v /var/run/docker.sock:/var/run/docker.sock:ro ${{ secrets.DOCKER_HUB_USERNAME }}/${{ github.event.repository.name }}:latest)
-          echo $output
+          echo "$output"
           output="${output//'%'/'%25'}"
           output="${output//$'\n'/'%0A'}"
           output="${output//$'\r'/'%0D'}"
@@ -58,34 +58,34 @@ jobs:
           sleep 10
           echo "Showing container logs"
           output=$(docker logs test_subject)
-          echo $output
+          echo "$output"
           output="${output//'%'/'%25'}"
           output="${output//$'\n'/'%0A'}"
           output="${output//$'\r'/'%0D'}"
-          echo "::set-output name=run::$output" 
+          echo "::set-output name=logs::$output" 
           echo "Showing container stats"
           output=$(docker exec test_subject ps -ef)
-          echo $output
+          echo "$output"
           output="${output//'%'/'%25'}"
           output="${output//$'\n'/'%0A'}"
           output="${output//$'\r'/'%0D'}"
-          echo "::set-output name=run::$output" 
+          echo "::set-output name=stats::$output" 
           echo "::endgroup::"
           echo "::group::Stop container"
           echo "Stopping container"
           output=$(docker stop test_subject)
-          echo $output
+          echo "$output"
           output="${output//'%'/'%25'}"
           output="${output//$'\n'/'%0A'}"
           output="${output//$'\r'/'%0D'}"
-          echo "::set-output name=run::$output" 
+          echo "::set-output name=stop::$output" 
           echo "Removing container"
           output=$(docker rm test_subject)
-          echo $output
+          echo "$output"
           output="${output//'%'/'%25'}"
           output="${output//$'\n'/'%0A'}"
           output="${output//$'\r'/'%0D'}"
-          echo "::set-output name=run::$output" 
+          echo "::set-output name=remove::$output" 
           echo "::endgroup::"
 
       - name: Send test results
