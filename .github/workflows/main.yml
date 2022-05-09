@@ -89,12 +89,12 @@ jobs:
           echo "::endgroup::"
 
       - name: Send test results
-        uses: devellany/send-mail@v1.0.2
+        uses: dawidd6/action-send-mail@v3
         with:
-          host: mail.dschinghis-kahn.net
-          account:  ${{ secrets.MAIL_USERNAME }}
+          server_address: mail.dschinghis-kahn.net
+          server_port: 465
+          username:  ${{ secrets.MAIL_USERNAME }}
           password: ${{ secrets.MAIL_PASSWORD }}
-          sender: Github Actions
           from: coding@dschinghis-kahn.net
           to: coding@dschinghis-kahn.net
           subject: "Test results for build of ${{ github.repository }}!"
