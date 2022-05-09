@@ -46,21 +46,21 @@ jobs:
         run: |
           echo "::group::Start container"
           echo "Running container with name test_subject"
-          echo "::set-output run::$(docker run --detach --name test_subject -v /var/run/docker.sock:/var/run/docker.sock:ro ${{ secrets.DOCKER_HUB_USERNAME }}/${{ github.event.repository.name }}:latest)"
+          echo "::set-output name=run::$(docker run --detach --name test_subject -v /var/run/docker.sock:/var/run/docker.sock:ro ${{ secrets.DOCKER_HUB_USERNAME }}/${{ github.event.repository.name }}:latest)"
           echo "::endgroup::"
           echo "::group::Test container"
           echo "Waiting for 10 seconds to wait for container initializatzion"
           sleep 10
           echo "Showing container logs"
-          echo "::set-output logs::$(docker logs test_subject)"
+          echo "::set-output name=logs::$(docker logs test_subject)"
           echo "Showing container stats"
-          echo "::set-output stats::$(docker exec test_subject ps -ef)"
+          echo "::set-output name=stats::$(docker exec test_subject ps -ef)"
           echo "::endgroup::"
           echo "::group::Stop container"
           echo "Stopping container"
-          echo "::set-output stop::$(docker stop test_subject)"
+          echo "::set-output name=stop::$(docker stop test_subject)"
           echo "Removing container"
-          echo "::set-output remove::$(docker rm test_subject)"
+          echo "::set-output name=remove::$(docker rm test_subject)"
           echo "::endgroup::"
 
       - name: Send mailer
