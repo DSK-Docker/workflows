@@ -41,12 +41,24 @@ jobs:
           context: .
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ github.event.repository.name }}:latest
 
+      - name: Read test setup (start)
+        id: test_setup_start
+        uses: juliangruber/read-file-action@v1
+        with:
+          path: ./.github/workflows/test_setup.start
+
+      - name: Read test setup (stop)
+        id: test_setup_stop
+        uses: juliangruber/read-file-action@v1
+        with:
+          path: ./.github/workflows/test_setup.stop
+
       - name: Test new container
         id: test
         run: |
           echo "::group::Start container"
           echo "Running container with name test_subject"
-          docker run --detach --name test_subject -v /var/run/docker.sock:/var/run/docker.sock:ro ${{ secrets.DOCKER_HUB_USERNAME }}/${{ github.event.repository.name }}:latest
+          ${{ steps.test_setup_start.outputs.content }}
           echo "::endgroup::"
           echo "::group::Test container"
           echo "Waiting for 10 seconds for container initializatzion"
@@ -60,9 +72,7 @@ jobs:
           echo "::endgroup::"
           echo "::group::Stop container"
           echo "Stopping container"
-          docker stop test_subject
-          echo "Removing container"
-          docker rm test_subject
+          ${{ steps.test_setup_stop.outputs.content }}
           echo "::endgroup::"
 
       - name: Send test results
