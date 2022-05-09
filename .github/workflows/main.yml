@@ -72,8 +72,8 @@ jobs:
           sender: Github Actions
           from: coding@dschinghis-kahn.net
           to: coding@dschinghis-kahn.net
-          subject: Test results for build of ${{ github.repository }}!
-          body: "Here are the results of the test of the recent build:\n${{ steps.tests.output.logs }}\n\n${{ steps.tests.output.stats }}\n"
+          subject: "Test results for build of ${{ github.repository }}!"
+          body: "Here are the results of the test of the recent build:\n${{ steps.tests.outputs.logs }}\n\n${{ steps.tests.outputs.stats }}\n"
 
       - name: Login to DockerHub
         if: ${{ github.event_name != 'pull_request' }}
