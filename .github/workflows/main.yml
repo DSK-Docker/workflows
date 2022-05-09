@@ -53,10 +53,10 @@ jobs:
           sleep 10
           echo "Showing container logs"
           logs=$(docker logs test_subject)
-          echo "$logs" ; logs="${logs//'%'/'%25'}" ; logs="${logs//$'\n'/'%0A'}" ; logs="${logs//$'\r'/'%0D'}" ; echo "::set-output name=logs::$logs" 
+          echo "$logs" ; logs="${logs//'%'/'%25'}" ; logs="${logs//$'\n'/'%0A'}" ; logs="${logs//$'\r'/'%0D'}" ; echo "::set-output name=LOGS::logs" 
           echo "Showing container stats"
           stats=$(docker exec test_subject ps -ef)
-          echo "$stats" ; stats="${stats//'%'/'%25'}" ; stats="${stats//$'\n'/'%0A'}" ; stats="${stats//$'\r'/'%0D'}" ; echo "::set-output name=stats::$stats" 
+          echo "$stats" ; stats="${stats//'%'/'%25'}" ; stats="${stats//$'\n'/'%0A'}" ; stats="${stats//$'\r'/'%0D'}" ; echo "::set-output name=STATS::$stats" 
           echo "::endgroup::"
           echo "::group::Stop container"
           echo "Stopping container"
@@ -75,7 +75,7 @@ jobs:
           from: coding@dschinghis-kahn.net
           to: coding@dschinghis-kahn.net
           subject: "Test results for build of ${{ github.repository }}"
-          body: "Here are the results of the test of the recent build:\n\nLogs:\n${{ steps.test.outputs.logs }}\n\nStats:\n${{ steps.test.outputs.stats }}\n"
+          body: "Here are the results of the test of the recent build:\n\nLogs:\n${{ steps.test.outputs.LOGS }}\n\nStats:\n${{ steps.test.outputs.STATS }}\n"
 
       - name: Login to DockerHub
         if: ${{ github.event_name != 'pull_request' }}
