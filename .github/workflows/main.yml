@@ -38,25 +38,41 @@ jobs:
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ github.event.repository.name }}:latest
 
       - name: Test new container
+        id: test
         run: |
           echo "::group::Start container"
           echo "Running container with name test_subject"
-          docker run --detach --name test_subject -v /var/run/docker.sock:/var/run/docker.sock:ro ${{ secrets.DOCKER_HUB_USERNAME }}/${{ github.event.repository.name }}:latest
+          echo "::set-output run::$(docker run --detach --name test_subject -v /var/run/docker.sock:/var/run/docker.sock:ro ${{ secrets.DOCKER_HUB_USERNAME }}/${{ github.event.repository.name }}:latest)"
           echo "::endgroup::"
           echo "::group::Test container"
           echo "Waiting for 10 seconds to wait for container initializatzion"
           sleep 10
           echo "Showing container logs"
-          docker logs test_subject
+          echo "::set-output logs::$(docker logs test_subject)"
           echo "Showing container stats"
-          docker exec test_subject ps -ef
+          echo "::set-output stats::$(docker exec test_subject ps -ef)"
           echo "::endgroup::"
           echo "::group::Stop container"
           echo "Stopping container"
-          docker stop test_subject
+          echo "::set-output stop::$(docker stop test_subject)"
           echo "Removing container"
-          docker rm test_subject
+          echo "::set-output remove::$(docker rm test_subject)"
           echo "::endgroup::"
+
+      - name: Send mailer
+        uses: devellany/send-mail@v1.0.2
+        with:
+          host: mail.dschinghis-kahn.net
+          account:  ${{ secrets.MAIL_USERNAME }}
+          password: ${{ secrets.MAIL_PASSWORD }}
+          sender: Github Actions
+          from: coding@dschinghis-kahn.net
+          to: coding@dschinghis-kahn.net
+          subject: Test results for build of ${{ github.repository }}!
+          body: |
+            Here are the results of the test of the recent build:
+            ${{ steps.tests.output.logs }}
+            ${{ steps.tests.output.stats }}
 
       - name: Login to DockerHub
         if: ${{ github.event_name != 'pull_request' }}
