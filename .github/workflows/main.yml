@@ -52,11 +52,11 @@ jobs:
           echo "Waiting for 10 seconds for container initializatzion"
           sleep 10
           echo "Showing container logs"
-          logs=$(docker logs test_subject)
-          echo "$logs" ; logs="${logs//'%'/'%25'}" ; logs="${logs//$'\n'/'%0A'}" ; logs="${logs//$'\r'/'%0D'}" ; echo "::set-output name=LOGS::logs" 
+          output=$(docker logs test_subject 2>&1)
+          echo "$output" ; output="${output//'%'/'%25'}" ; output="${output//$'\n'/'%0A'}" ; output="${output//$'\r'/'%0D'}" ; echo "::set-output name=LOGS::$output" 
           echo "Showing container stats"
-          stats=$(docker exec test_subject ps -ef)
-          echo "$stats" ; stats="${stats//'%'/'%25'}" ; stats="${stats//$'\n'/'%0A'}" ; stats="${stats//$'\r'/'%0D'}" ; echo "::set-output name=STATS::$stats" 
+          output=$(docker exec test_subject ps -ef 2>&1)
+          echo "$output" ; output="${output//'%'/'%25'}" ; output="${output//$'\n'/'%0A'}" ; output="${output//$'\r'/'%0D'}" ; echo "::set-output name=STATS::$output" 
           echo "::endgroup::"
           echo "::group::Stop container"
           echo "Stopping container"
