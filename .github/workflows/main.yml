@@ -60,8 +60,8 @@ jobs:
           echo "::endgroup::"
           echo "::group::Stop container"
           echo "Stopping container"
-          docker stop test_subject
-          docker rm test_subject
+          docker kill $(docker ps -q)
+          docker rm $(docker ps -a -q)
           echo "::endgroup::"
 
       - name: Send test results
