@@ -62,7 +62,7 @@ jobs:
           output="${output//'%'/'%25'}"
           output="${output//$'\n'/'%0A'}"
           output="${output//$'\r'/'%0D'}"
-          echo "::set-output name=logs::$output" 
+          echo "::set-output name=dockerlog::$output" 
           echo "Showing container stats"
           output=$(docker exec test_subject ps -ef)
           echo "$output"
@@ -97,8 +97,8 @@ jobs:
           password: ${{ secrets.MAIL_PASSWORD }}
           from: coding@dschinghis-kahn.net
           to: coding@dschinghis-kahn.net
-          subject: "Test results for build of ${{ github.repository }}!"
-          body: "Here are the results of the test of the recent build:\n${{ steps.test.outputs.logs }}\n\n${{ steps.test.outputs.stats }}\n"
+          subject: "Test results for build of ${{ github.repository }}"
+          body: "Here are the results of the test of the recent build:\n\nLogs:\n${{ steps.test.outputs.dockerlog }}\n\nStats:\n${{ steps.test.outputs.stats }}\n"
 
       - name: Login to DockerHub
         if: ${{ github.event_name != 'pull_request' }}
