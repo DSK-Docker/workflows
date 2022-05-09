@@ -58,7 +58,7 @@ jobs:
         run: |
           echo "::group::Start container"
           echo "Running container with name test_subject"
-          ${{ steps.test_setup_start.outputs.content }}
+          docker run --detach --name test_subject ${{ secrets.DOCKER_HUB_USERNAME }}/${{ github.event.repository.name }}:latest
           echo "::endgroup::"
           echo "::group::Test container"
           echo "Waiting for 10 seconds for container initializatzion"
@@ -72,7 +72,8 @@ jobs:
           echo "::endgroup::"
           echo "::group::Stop container"
           echo "Stopping container"
-          ${{ steps.test_setup_stop.outputs.content }}
+          docker stop test_subject
+          docker rm test_subject
           echo "::endgroup::"
 
       - name: Send test results
