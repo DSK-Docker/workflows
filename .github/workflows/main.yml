@@ -73,7 +73,7 @@ jobs:
           from: coding@dschinghis-kahn.net
           to: coding@dschinghis-kahn.net
           subject: "Test results for build of ${{ github.repository }}!"
-          body: "Here are the results of the test of the recent build:\n${{ steps.tests.outputs.logs }}\n\n${{ steps.tests.outputs.stats }}\n"
+          body: "Here are the results of the test of the recent build:\n${{ steps.test.outputs.logs }}\n\n${{ steps.test.outputs.stats }}\n"
 
       - name: Login to DockerHub
         if: ${{ github.event_name != 'pull_request' }}
