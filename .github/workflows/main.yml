@@ -41,18 +41,6 @@ jobs:
           context: .
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ github.event.repository.name }}:latest
 
-      - name: Read test setup (start)
-        id: test_setup_start
-        uses: juliangruber/read-file-action@v1
-        with:
-          path: ./.github/workflows/test_setup.start
-
-      - name: Read test setup (stop)
-        id: test_setup_stop
-        uses: juliangruber/read-file-action@v1
-        with:
-          path: ./.github/workflows/test_setup.stop
-
       - name: Test new container
         id: test
         run: |
