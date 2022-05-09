@@ -52,10 +52,10 @@ jobs:
           echo "Waiting for 10 seconds for container initializatzion"
           sleep 10
           echo "Showing container logs"
-          output=$(docker logs test_subject 2>&1)
+          output=$(docker logs test_subject)
           echo "$output" ; output="${output//'%'/'%25'}" ; output="${output//$'\n'/'%0A'}" ; output="${output//$'\r'/'%0D'}" ; echo "::set-output name=LOGS::$output" 
           echo "Showing container stats"
-          output=$(docker exec test_subject sh -c "ps -ef 2>&1 || echo 'PS command not available!'")
+          output=$(docker exec test_subject sh -c "ps -ef || echo 'PS command not available!'")
           echo "$output" ; output="${output//'%'/'%25'}" ; output="${output//$'\n'/'%0A'}" ; output="${output//$'\r'/'%0D'}" ; echo "::set-output name=STATS::$output" 
           echo "::endgroup::"
           echo "::group::Stop container"
