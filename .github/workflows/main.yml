@@ -7,6 +7,11 @@ on:
         required: false
         type: string
         default: "docker run"
+      docker-stats-command:
+        description: 'Custom command to gather stats from the container (used for automarted testing).'
+        required: false
+        type: string
+        default: "ps -ef"
     secrets:
       DOCKER_HUB_USERNAME:
         required: true
@@ -61,7 +66,7 @@ jobs:
           output=$(docker logs test_subject 2>&1)
           echo "$output" ; output="${output//'%'/'%25'}" ; output="${output//$'\n'/'%0A'}" ; output="${output//$'\r'/'%0D'}" ; echo "::set-output name=LOGS::$output" 
           echo "Showing container stats"
-          output=$(docker exec test_subject sh -c "ps -ef || echo 'PS command not available!'")
+          output=$(docker exec test_subject sh -c "${{ inputs.docker-stats-command }} 2> /dev/null || echo 'Stats command not available! (${{ inputs.docker-stats-command }})'")
           echo "$output" ; output="${output//'%'/'%25'}" ; output="${output//$'\n'/'%0A'}" ; output="${output//$'\r'/'%0D'}" ; echo "::set-output name=STATS::$output" 
           echo "::endgroup::"
           echo "::group::Stop container"
