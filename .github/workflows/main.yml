@@ -46,7 +46,9 @@ jobs:
         run: |
           echo "::group::Start container"
           echo "Running container with name test_subject"
-          docker run --detach --name test_subject ${{ secrets.DOCKER_HUB_USERNAME }}/${{ github.event.repository.name }}:latest
+          docker_run_config=$(cat docker_run.config)
+          echo "${docker_run_config:-docker run --detach --name test_subject ${{ secrets.DOCKER_HUB_USERNAME }}/${{ github.event.repository.name }}:latest}"
+          sh -c "$docker_run_config"
           echo "::endgroup::"
           echo "::group::Test container"
           echo "Waiting for 10 seconds for container initializatzion"
