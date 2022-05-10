@@ -1,6 +1,12 @@
 name: workflows
 on:
   workflow_call:
+    inputs:
+      docker-run-config:
+        description: 'Custom docker command to run the container (used for automarted testing).'
+        required: false
+        type: string
+        default: "docker run --detach --name test_subject ${{ secrets.DOCKER_HUB_USERNAME }}/${{ github.event.repository.name }}:latest"
     secrets:
       DOCKER_HUB_USERNAME:
         required: true
@@ -12,12 +18,6 @@ on:
         required: true
       MAIL_PASSWORD:
         required: true
-    inputs:
-      docker-run-config:
-        description: 'Custom docker command to run the container (used for automarted testing).'
-        required: false
-        type: string
-        default: "docker run --detach --name test_subject ${{ secrets.DOCKER_HUB_USERNAME }}/${{ github.event.repository.name }}:latest"
 
 jobs:
   build-test-and-publish:
