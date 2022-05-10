@@ -6,6 +6,7 @@ on:
         description: 'Custom docker command to run the container (used for automarted testing).'
         required: false
         type: string
+        default: "docker run"
     secrets:
       DOCKER_HUB_USERNAME:
         required: true
@@ -51,7 +52,7 @@ jobs:
         run: |
           echo "::group::Start container"
           echo "Running container with name test_subject"
-          test -z "${{ github.event.inputs.docker-run-config }}" && docker run --detach --name test_subject ${{ secrets.DOCKER_HUB_USERNAME }}/${{ github.event.repository.name }}:latest || sh -c "${{ github.event.inputs.docker-run-config }}"
+          sh -c "${{ github.event.inputs.docker-run-config }} --name test_subject ${{ secrets.DOCKER_HUB_USERNAME }}/${{ github.event.repository.name }}:latest"
           echo "::endgroup::"
           echo "::group::Test container"
           echo "Waiting for 10 seconds for container initializatzion"
