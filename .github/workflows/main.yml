@@ -12,11 +12,19 @@ on:
         required: true
       MAIL_PASSWORD:
         required: true
-  
+    inputs:
+      docker-run-config:
+        description: 'Custom docker command to run the container (used for automarted testing).'
+        required: false
+        type: string
+        default: "docker run --detach --name test_subject ${{ secrets.DOCKER_HUB_USERNAME }}/${{ github.event.repository.name }}:latest"
+
 jobs:
   build-test-and-publish:
 
     runs-on: ubuntu-latest
+
+  
 
     steps:
       - name: Checkout repository
@@ -46,9 +54,7 @@ jobs:
         run: |
           echo "::group::Start container"
           echo "Running container with name test_subject"
-          docker_run_config=$(cat docker_run.config ; true)
-          echo "${docker_run_config:-docker run --detach --name test_subject ${{ secrets.DOCKER_HUB_USERNAME }}/${{ github.event.repository.name }}:latest}"
-          sh -c "$docker_run_config"
+          sh -c "${{ github.event.inputs.docker-run-config }}"
           echo "::endgroup::"
           echo "::group::Test container"
           echo "Waiting for 10 seconds for container initializatzion"
