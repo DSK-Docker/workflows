@@ -39,7 +39,7 @@ jobs:
 
       - name: Generate metadata
         id: metadata
-        uses: docker/metadata-action@v3
+        uses: docker/metadata-action@v4
         with:
           images: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ github.event.repository.name }}
           tags: ${{ steps.commit-date.outputs.COMMIT_DATE }}
