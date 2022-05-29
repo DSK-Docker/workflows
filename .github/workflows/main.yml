@@ -60,7 +60,7 @@ jobs:
           sh -c "${{ inputs.docker-run-config }} --detach --name test_subject ${{ secrets.DOCKER_HUB_USERNAME }}/${{ github.event.repository.name }}:latest"
           echo "::endgroup::"
           echo "::group::Test container"
-          echo "Waiting for 10 seconds for container initializatzion"
+          echo "Waiting for 10 seconds for container initialization"
           sleep 10
           echo "Showing container logs"
           output=$(docker logs test_subject 2>&1)
