@@ -76,6 +76,7 @@ jobs:
           echo "::endgroup::"
 
       - name: Send test results
+        if: ${{ github.event_name != 'pull_request' }}
         uses: dawidd6/action-send-mail@v3
         with:
           server_address: mail.dschinghis-kahn.net
