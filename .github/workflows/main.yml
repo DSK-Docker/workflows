@@ -35,7 +35,7 @@ jobs:
 
       - name: Extract last commit timestamp
         id: commit-date
-        run: echo "::set-output name=COMMIT_DATE::$(git log -1 --pretty=%ci | sed -e s'/[-:+]//'g -e s'/ /_/'g)"
+        run: echo "name=COMMIT_DATE::$(git log -1 --pretty=%ci | sed -e s'/[-:+]//'g -e s'/ /_/'g)" >> $GITHUB_OUTPUT
 
       - name: Generate metadata
         id: metadata
@@ -64,10 +64,10 @@ jobs:
           sleep 10
           echo "Showing container logs"
           output=$(docker logs test_subject 2>&1)
-          echo "$output" ; output="${output//'%'/'%25'}" ; output="${output//$'\n'/'%0A'}" ; output="${output//$'\r'/'%0D'}" ; echo "::set-output name=LOGS::$output" 
+          echo "$output" ; output="${output//'%'/'%25'}" ; output="${output//$'\n'/'%0A'}" ; output="${output//$'\r'/'%0D'}" ; echo "name=LOGS::$output" >> $GITHUB_OUTPUT
           echo "Showing container stats"
           output=$(docker exec test_subject sh -c "${{ inputs.docker-stats-command }} 2> /dev/null || echo 'Stats command not available! (${{ inputs.docker-stats-command }})'")
-          echo "$output" ; output="${output//'%'/'%25'}" ; output="${output//$'\n'/'%0A'}" ; output="${output//$'\r'/'%0D'}" ; echo "::set-output name=STATS::$output" 
+          echo "$output" ; output="${output//'%'/'%25'}" ; output="${output//$'\n'/'%0A'}" ; output="${output//$'\r'/'%0D'}" ; echo "name=STATS::$output" >> $GITHUB_OUTPUT
           echo "::endgroup::"
           echo "::group::Stop container"
           echo "Stopping container"
