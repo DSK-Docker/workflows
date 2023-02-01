@@ -68,14 +68,16 @@ jobs:
           echo "LOGS<<EOF
           $output
           EOF" >> $GITHUB_OUTPUT
-          output="${output//'%'/'%25'}" ; output="${output//$'\n'/'%0A'}" ; output="${output//$'\r'/'%0D'}" ; echo "LOGS_FOR_MAIL=$output" >> $GITHUB_OUTPUT
+          output2="${output//'%'/'%25'}" ; output2="${output//$'\n'/'%0A'}" ; output2="${output//$'\r'/'%0D'}" ; 
+          echo "LOGS_FOR_MAIL=$output" >> $GITHUB_OUTPUT
           echo "Showing container stats"
           output=$(docker exec test_subject sh -c "${{ inputs.docker-stats-command }} 2> /dev/null || echo 'Stats command not available! (${{ inputs.docker-stats-command }})'")
           echo "STATS<<EOF
           $output
           EOF" >> $GITHUB_OUTPUT
           echo "$output"
-          output="${output//'%'/'%25'}" ; output="${output//$'\n'/'%0A'}" ; output="${output//$'\r'/'%0D'}" ; echo "STATS_FOR_MAIL=$output" >> $GITHUB_OUTPUT
+          output2="${output//'%'/'%25'}" ; output2="${output//$'\n'/'%0A'}" ; output2="${output//$'\r'/'%0D'}" ; 
+          echo "STATS_FOR_MAIL=$output" >> $GITHUB_OUTPUT
           echo "::endgroup::"
           echo "::group::Stop container"
           echo "Stopping container"
