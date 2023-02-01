@@ -35,7 +35,7 @@ jobs:
 
       - name: Extract last commit timestamp
         id: commit-date
-        run: echo "name=COMMIT_DATE::$(git log -1 --pretty=%ci | sed -e s'/[-:+]//'g -e s'/ /_/'g)" >> $GITHUB_OUTPUT
+        run: echo "COMMIT_DATE=$(git log -1 --pretty=%ci | sed -e s'/[-:+]//'g -e s'/ /_/'g)" >> $GITHUB_OUTPUT
 
       - name: Generate metadata
         id: metadata
