@@ -68,16 +68,12 @@ jobs:
           echo "LOGS<<EOF
           $output
           EOF" >> $GITHUB_OUTPUT
-          output2="${output//'%'/'%25'}" ; output2="${output//$'\n'/'%0A'}" ; output2="${output//$'\r'/'%0D'}" ; 
-          echo "LOGS_FOR_MAIL=$output" >> $GITHUB_OUTPUT
           echo "Showing container stats"
           output=$(docker exec test_subject sh -c "${{ inputs.docker-stats-command }} 2> /dev/null || echo 'Stats command not available! (${{ inputs.docker-stats-command }})'")
+          echo "$output"
           echo "STATS<<EOF
           $output
           EOF" >> $GITHUB_OUTPUT
-          echo "$output"
-          output2="${output//'%'/'%25'}" ; output2="${output//$'\n'/'%0A'}" ; output2="${output//$'\r'/'%0D'}" ; 
-          echo "STATS_FOR_MAIL=$output" >> $GITHUB_OUTPUT
           echo "::endgroup::"
           echo "::group::Stop container"
           echo "Stopping container"
@@ -106,7 +102,7 @@ jobs:
           from: coding@dschinghis-kahn.net
           to: coding@dschinghis-kahn.net
           subject: "Test results for build of ${{ github.repository }}"
-          body: "Here are the results of the test of the recent build:\n\nLogs:\n${{ steps.test.outputs.LOGS_FOR_MAIL }}\n\nStats:\n${{ steps.test.outputs.STATS_FOR_MAIL }}\n"
+          body: "Here are the results of the test of the recent build:\n\nLogs:\n${{ steps.test.outputs.LOGS }}\n\nStats:\n${{ steps.test.outputs.STATS }}\n"
 
       - name: Login to DockerHub
         if: ${{ github.event_name != 'pull_request' }}
