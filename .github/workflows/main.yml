@@ -75,6 +75,16 @@ jobs:
           docker rm $(docker ps -a -q)
           echo "::endgroup::"
 
+      - name: Generate summary
+        run: |
+          echo "Test results for build of ${{ github.repository }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- Logs from the container:" >> $GITHUB_STEP_SUMMARY
+          echo "${{ steps.test.outputs.LOGS }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- Statistics from the stats command:" >> $GITHUB_STEP_SUMMARY
+          echo "${{ steps.test.outputs.STATS }}" >> $GITHUB_STEP_SUMMARY
+
       - name: Send test results
         if: ${{ github.event_name != 'pull_request' }}
         uses: dawidd6/action-send-mail@v3
