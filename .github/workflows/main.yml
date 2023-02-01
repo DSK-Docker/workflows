@@ -64,10 +64,10 @@ jobs:
           sleep 10
           echo "Showing container logs"
           output=$(docker logs test_subject 2>&1)
-          echo "$output" ; output="${output//'%'/'%25'}" ; output="${output//$'\n'/'%0A'}" ; output="${output//$'\r'/'%0D'}" ; echo "name=LOGS::$output" >> $GITHUB_OUTPUT
+          echo "$output" ; output="${output//'%'/'%25'}" ; output="${output//$'\n'/'%0A'}" ; output="${output//$'\r'/'%0D'}" ; echo "LOGS=$output" >> $GITHUB_OUTPUT
           echo "Showing container stats"
           output=$(docker exec test_subject sh -c "${{ inputs.docker-stats-command }} 2> /dev/null || echo 'Stats command not available! (${{ inputs.docker-stats-command }})'")
-          echo "$output" ; output="${output//'%'/'%25'}" ; output="${output//$'\n'/'%0A'}" ; output="${output//$'\r'/'%0D'}" ; echo "name=STATS::$output" >> $GITHUB_OUTPUT
+          echo "$output" ; output="${output//'%'/'%25'}" ; output="${output//$'\n'/'%0A'}" ; output="${output//$'\r'/'%0D'}" ; echo "STATS=$output" >> $GITHUB_OUTPUT
           echo "::endgroup::"
           echo "::group::Stop container"
           echo "Stopping container"
