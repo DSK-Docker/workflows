@@ -89,7 +89,7 @@ jobs:
           echo '${{ steps.test.outputs.LOGS }}' | sed -e s'/["()]//g' >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "- Statistics from the stats command:" >> $GITHUB_STEP_SUMMARY
-          echo '${{ steps.test.outputs.STATS }}' | sed -e s'/["()]//g' >> $GITHUB_STEP_SUMMARY
+          echo "${{ steps.test.outputs.STATS }}" | sed -e s'/["()]//g' >> $GITHUB_STEP_SUMMARY
 
       - name: Send test results
         if: ${{ github.event_name != 'pull_request' }}
