@@ -101,7 +101,8 @@ jobs:
           account: ${{ secrets.MAIL_USERNAME }}
           password: ${{ secrets.MAIL_PASSWORD }}
           to: coding@dschinghis-kahn.net
-          from: GitHub Actions
+          sender: GitHub Actions
+          from: coding@dschinghis-kahn.net
           subject: "Test results for build of ${{ github.repository }}"
           body: "Here are the results of the test of the recent build:\n\nLogs:\n${{ steps.test.outputs.LOGS }}\n\nStats:\n${{ steps.test.outputs.STATS }}\n"
 
