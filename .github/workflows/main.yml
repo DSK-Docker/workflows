@@ -97,7 +97,6 @@ jobs:
         uses: dawidd6/action-send-mail@v3
         with:
           connection_url: smtp://${{ secrets.MAIL_USERNAME }}:${{ secrets.MAIL_PASSWORD }}@mail.dschinghis-kahn.net:25
-          from: coding@dschinghis-kahn.net
           to: coding@dschinghis-kahn.net
           subject: "Test results for build of ${{ github.repository }}"
           body: "Here are the results of the test of the recent build:\n\nLogs:\n${{ steps.test.outputs.LOGS }}\n\nStats:\n${{ steps.test.outputs.STATS }}\n"
