@@ -93,6 +93,7 @@ jobs:
 
       - name: Send test results
         if: ${{ github.event_name != 'pull_request' }}
+        continue-on-error: true
         uses: dawidd6/action-send-mail@v3
         with:
           server_address: mail.dschinghis-kahn.net
