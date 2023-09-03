@@ -96,7 +96,7 @@ jobs:
         continue-on-error: true
         uses: dawidd6/action-send-mail@v3
         with:
-          connection_url: smtp+starttls://${{ secrets.MAIL_USERNAME }}:${{ secrets.MAIL_PASSWORD }}@mail.dschinghis-kahn.net:587
+          connection_url: smtp://${{ secrets.MAIL_USERNAME }}:${{ secrets.MAIL_PASSWORD }}@mail.dschinghis-kahn.net:25
           from: coding@dschinghis-kahn.net
           to: coding@dschinghis-kahn.net
           subject: "Test results for build of ${{ github.repository }}"
