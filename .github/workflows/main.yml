@@ -98,7 +98,7 @@ jobs:
         with:
           connection_url: smtp://${{ secrets.MAIL_USERNAME }}:${{ secrets.MAIL_PASSWORD }}@mail.dschinghis-kahn.net:25
           to: coding@dschinghis-kahn.net
-          from: coding@dschinghis-kahn.net
+          from: GitHub Actions
           subject: "Test results for build of ${{ github.repository }}"
           body: "Here are the results of the test of the recent build:\n\nLogs:\n${{ steps.test.outputs.LOGS }}\n\nStats:\n${{ steps.test.outputs.STATS }}\n"
 
