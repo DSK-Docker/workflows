@@ -86,10 +86,14 @@ jobs:
           echo "Test results for build of ${{ github.repository }}" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "- Logs from the container:" >> $GITHUB_STEP_SUMMARY
-          echo '${{ steps.test.outputs.LOGS }}' | sed -e s'/["()]//g' >> $GITHUB_STEP_SUMMARY
+          cat << EOF >> $GITHUB_STEP_SUMMARY
+          ${{ steps.test.outputs.LOGS }}
+          EOF
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "- Statistics from the stats command:" >> $GITHUB_STEP_SUMMARY
-          echo "${{ steps.test.outputs.STATS }}" | sed -e s'/["()]//g' >> $GITHUB_STEP_SUMMARY
+          cat << EOF >>$GITHUB_STEP_SUMMARY
+          ${{ steps.test.outputs.STATS }}
+          EOF
 
       - name: Send test results
         if: ${{ github.event_name != 'pull_request' }}
