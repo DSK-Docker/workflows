@@ -97,14 +97,13 @@ jobs:
       - name: Send test results
         if: ${{ github.event_name != 'pull_request' }}
         continue-on-error: true
-        uses: devellany/send-mail@v1.0.2
+        uses: dawidd6/action-send-mail@v3.10.0
         with:
-          host: mail.dschinghis-kahn.net
-          port: 587
-          account: ${{ secrets.MAIL_USERNAME }}
+          server_address: mail.dschinghis-kahn.net
+          server_port: 587
+          username: ${{ secrets.MAIL_USERNAME }}
           password: ${{ secrets.MAIL_PASSWORD }}
           to: coding@dschinghis-kahn.net
-          sender: GitHub Actions
           from: coding@dschinghis-kahn.net
           subject: "Test results for build of ${{ github.repository }}"
           body: file://results.txt
