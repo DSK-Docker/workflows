@@ -83,17 +83,16 @@ jobs:
 
       - name: Generate summary
         run: |
-          echo "Test results for build of ${{ github.repository }}" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "- Logs from the container:" >> $GITHUB_STEP_SUMMARY
-          cat << EOF >> $GITHUB_STEP_SUMMARY
+          cat << EOF > results.txt
+          - Logs from the container:
           ${{ steps.test.outputs.LOGS }}
-          EOF
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "- Statistics from the stats command:" >> $GITHUB_STEP_SUMMARY
-          cat << EOF >>$GITHUB_STEP_SUMMARY
+          
+          - Statistics from the stats command:
           ${{ steps.test.outputs.STATS }}
           EOF
+          echo "Test results for build of ${{ github.repository }}"
+          echo
+          cat results.txt
 
       - name: Send test results
         if: ${{ github.event_name != 'pull_request' }}
@@ -108,7 +107,7 @@ jobs:
           sender: GitHub Actions
           from: coding@dschinghis-kahn.net
           subject: "Test results for build of ${{ github.repository }}"
-          body: "Here are the results of the test of the recent build:\n\nLogs:\n${{ steps.test.outputs.LOGS }}\n\nStats:\n${{ steps.test.outputs.STATS }}\n"
+          body: file://results.txt
 
       - name: Login to DockerHub
         if: ${{ github.event_name != 'pull_request' }}
