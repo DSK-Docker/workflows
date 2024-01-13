@@ -84,14 +84,14 @@ jobs:
       - name: Generate summary
         run: |
           cat << EOF > results.txt
+          Test results for build of ${{ github.repository }}
+          
           - Logs from the container:
           ${{ steps.test.outputs.LOGS }}
           
           - Statistics from the stats command:
           ${{ steps.test.outputs.STATS }}
           EOF
-          echo "Test results for build of ${{ github.repository }}"
-          echo
           cat results.txt
 
       - name: Send test results
@@ -105,7 +105,7 @@ jobs:
           password: ${{ secrets.MAIL_PASSWORD }}
           to: coding@dschinghis-kahn.net
           from: coding@dschinghis-kahn.net
-          subject: "Test results for build of ${{ github.repository }}"
+          subject: "[GitHub - Actions] Test results for build of ${{ github.repository }}"
           body: file://results.txt
 
       - name: Login to DockerHub
